@@ -1,6 +1,7 @@
 // types.ts
 
 import { StepConfig } from "@/types/types";
+import { CreditCard, Wallet, Globe, ShoppingCart } from "lucide-react";
 
 export const STEPS: readonly StepConfig[] = [
   { id: 1, title: "Transaction Type", fields: ["transactionType"] },
@@ -25,7 +26,45 @@ export const PAYMENT_METHODS = [
   "Amazon Pay",
 ] as const;
 
+export const PAYMENT_ICON_MAP: Record<string, React.ElementType> = {
+  Paypal: Wallet,
+  Stripe: CreditCard,
+  "Google Pay": Globe,
+  "Amazon Pay": ShoppingCart,
+};
+
 export const BENEFICIARIES = [
   { id: "4385304098", name: "Chris Cherubin" },
   { id: "92314525606", name: "Haris Sultan" },
 ] as const;
+
+export type Coupon = {
+  code: string;
+  discount: number;
+  type: "fixed" | "percentage";
+  description: string;
+};
+
+export const COUPONS: Coupon[] = [
+  { code: "SAVE10", discount: 10, type: "fixed", description: "$10 off" },
+  { code: "SAVE20", discount: 20, type: "fixed", description: "$20 off" },
+  { code: "SAVE50", discount: 50, type: "fixed", description: "$50 off" },
+  {
+    code: "WELCOME10",
+    discount: 10,
+    type: "percentage",
+    description: "10% off",
+  },
+  {
+    code: "WELCOME20",
+    discount: 20,
+    type: "percentage",
+    description: "20% off",
+  },
+  {
+    code: "HOLIDAY25",
+    discount: 25,
+    type: "percentage",
+    description: "25% off",
+  },
+];

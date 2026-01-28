@@ -4,6 +4,7 @@
 :root {
   --background: #f2f4f8;
   --foreground: #171717;
+  --secondary: #e5e7eb;
   --primary: #9c27b0;
   --primary-foreground: #ffffff;
 }
@@ -26,8 +27,4 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
-}
-
-* {
-  border-color: hsl(var(--border));
 }

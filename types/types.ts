@@ -19,4 +19,7 @@ export type TransactionFormData = {
   beneficiary?: Beneficiary;
   paymentMethod?: PaymentMethod;
   amount?: number;
+  couponCode?: string;
+  discountAmount?: number;
+  finalAmount?: number;
 };

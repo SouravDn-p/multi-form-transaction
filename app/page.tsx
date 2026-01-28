@@ -61,6 +61,11 @@ export default function TransactionForm() {
           newErrors.paymentMethod = "Please select a payment method";
         }
         break;
+      case 4:
+        if (!formData.amount || formData.amount <= 0) {
+          newErrors.amount = "Please enter a valid amount";
+        }
+        break;
     }
 
     setFieldErrors(newErrors);
@@ -172,7 +177,7 @@ export default function TransactionForm() {
           />
         );
       case 4:
-        return <Step4 formData={formData} updateFormData={setFormData} />;
+        return <Step4 formData={formData} updateFormData={setFormData} fieldErrors={fieldErrors} />;
 
       default:
         return null;
@@ -184,12 +189,11 @@ export default function TransactionForm() {
       <main className="min-h-screen bg-[#FFFFFF80] flex justify-center items-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="flex flex-1 items-center justify-center mt-12 ">
           <div
-            className="w-[90vw] space-y-8 p-8 rounded-3xl  border-white 
+            className="w-[90vw] space-y-8 px-2 md:px-8 py-8 rounded-3xl  
                  "
           >
-            {" "}
             <div>
-              <h2 className="mt-6 text-center text-xl md:text-3xl font-semibold text-foreground">
+              <h2 className="mt-6 text-center text-lg md:text-xl lg:text-3xl font-semibold text-foreground">
                 Payment Information
               </h2>
               <p className="text-center text-base md:text-xl text-muted-foreground pt-1">
@@ -233,11 +237,11 @@ export default function TransactionForm() {
               })}
             </div>
             {/* Step Content */}
-            <div className="mt-8 w-full md:max-w-[50vw] mx-auto">
+            <div className="mt-8 w-full md:max-w-[60vw] xl:max-w-[50vw] mx-auto">
               {renderStep()}
             </div>
             {(error || errors.length > 0) && (
-              <div className="mt-2 w-full md:max-w-[50vw] mx-auto bg-red-50 p-4 rounded-lg border border-red-200">
+              <div className="mt-2 w-full md:max-w-[60vw] xl:max-w-[50vw] mx-auto bg-red-50 p-4 rounded-lg border border-red-200">
                 <div className="flex items-center mb-2">
                   <svg
                     className="h-5 w-5 text-red-500 mr-2"
@@ -271,7 +275,7 @@ export default function TransactionForm() {
             <div className="flex justify-between mt-6 w-full md:max-w-[50vw] mx-auto">
               {currentStep > 1 && (
                 <Button
-                  icon={<ChevronLeft className="h-5 w-5 mr-2" />}
+                  icon={<ChevronLeft className="h-5 w-5 md:mr-2" />}
                   iconPosition="left"
                   onClick={handlePrevious}
                   className="text-sm font-medium text-white hover:text-primary/90  rounded-xl"
@@ -285,9 +289,9 @@ export default function TransactionForm() {
                     ? "Submitting..."
                     : currentStep === 4
                       ? "Submit"
-                      : "Next Step"
+                      : "Next "
                 }
-                icon={<ChevronRight className="h-5 w-5 mr-2" />}
+                icon={<ChevronRight className="h-5 w-5 md:mr-2" />}
                 variant="primary"
                 className="ml-auto rounded-xl text-white"
                 onClick={handleNext}
@@ -298,14 +302,14 @@ export default function TransactionForm() {
               />
             </div>
             {/* Bottom Badges */}
-            <div className="grid gap-4 grid-cols-1 lg:grid-cols-3 space-x-4 mt-8 w-full md:max-w-[50vw] mx-auto  pt-8 ">
+            <div className="grid gap-4 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 space-x-4 mt-8 w-full md:max-w-[60vw] xl:max-w-[50vw] mx-auto  pt-8 ">
               <div className="bg-white p-4 rounded-xl border-border flex items-center space-x-2 shadow-md ">
                 <div className="flex items-center bg-blue-100 text-blue-600 px-3 py-2 rounded-lg text-sm">
                   <Shield className="h-8 w-6 " />
                 </div>
                 <div className="mx-4">
-                  <h1 className="text-md">Secure Verification</h1>
-                  <h3 className="text-secondary text-sm">
+                  <h1 className="text-sm md:text-md">Secure Verification</h1>
+                  <h3 className="text-secondary text-xs md:text-md">
                     Bank-level encryption
                   </h3>
                 </div>
@@ -315,8 +319,10 @@ export default function TransactionForm() {
                   <Lock className="h-8 w-6 " />
                 </div>
                 <div className="mx-4">
-                  <h1 className="text-md">Data Protected</h1>
-                  <h3 className="text-secondary text-sm">Privacy guaranteed</h3>
+                  <h1 className="text-sm md:text-md">Data Protected</h1>
+                  <h3 className="text-secondary text-xs md:text-md">
+                    Privacy guaranteed
+                  </h3>
                 </div>
               </div>
               <div className="bg-white p-4 rounded-xl border-border flex items-center space-x-2 shadow-md">
@@ -324,8 +330,10 @@ export default function TransactionForm() {
                   <CheckCircle className="h-8 w-6 " />
                 </div>
                 <div className="mx-4">
-                  <h1 className="text-md">Secure Verification</h1>
-                  <h3 className="text-secondary text-sm">2-3 business days</h3>
+                  <h1 className="text-sm md:text-md">Secure Verification</h1>
+                  <h3 className="text-secondary text-xs md:text-md">
+                    2-3 business days
+                  </h3>
                 </div>
               </div>
             </div>

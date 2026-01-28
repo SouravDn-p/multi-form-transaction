@@ -10,9 +10,9 @@ export default function Step1({
 }: StepProps) {
   return (
     <div className="space-y-6">
-      <div className="bg-white py-6 px-6 rounded-xl border border-gray-300 shadow-sm">
-        <div className="flex items-start space-x-4">
-          <div className="flex-shrink-0">
+      <div className="bg-white py-6 px-6 rounded-xl  border-orange-200  shadow-[0_0_4px_rgba(255,134,138,0.4)] ">
+        <div className="md:flex items-start space-x-4 space-y-4">
+          <div className="flex-shrink-0 flex gap-4 justify-center items-center">
             <div className="w-12 h-12 rounded-xl bg-linear-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-md">
               <ArrowRightLeft className="h-6 w-6 text-white" />
             </div>
@@ -28,12 +28,13 @@ export default function Step1({
           </div>
         </div>
 
-        <div className="mt-6 space-y-4">
+        <div className="mt-6 space-y-6">
+          {/* Transaction Type Selection */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-4 z-10">
               Transaction Type
             </label>
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 gap-3 space-y-2">
               {TRANSACTION_TYPES.map((type) => (
                 <button
                   key={type}
@@ -41,7 +42,7 @@ export default function Step1({
                   className={`p-4 rounded-lg border text-left transition-all duration-200 ${
                     formData.transactionType === type
                       ? "border-orange-500 bg-orange-50 text-orange-700 hover:cursor-pointer"
-                      : "border-gray-400 hover:border-orange-300 hover:bg-orange-50 hover:cursor-pointer"
+                      : "  border border-gray-200  hover:bg-gray-100 hover:cursor-pointer"
                   }`}
                   onClick={() =>
                     updateFormData({
@@ -60,6 +61,7 @@ export default function Step1({
               </p>
             )}
           </div>
+
         </div>
       </div>
     </div>
