@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import AuthWrapper from "@/components/AuthWrapper";
 
 export default function TransactionForm() {
   const router = useRouter();
@@ -177,7 +178,13 @@ export default function TransactionForm() {
           />
         );
       case 4:
-        return <Step4 formData={formData} updateFormData={setFormData} fieldErrors={fieldErrors} />;
+        return (
+          <Step4
+            formData={formData}
+            updateFormData={setFormData}
+            fieldErrors={fieldErrors}
+          />
+        );
 
       default:
         return null;
@@ -185,7 +192,7 @@ export default function TransactionForm() {
   };
 
   return (
-    <>
+    <AuthWrapper requireAuth={true} redirectTo="/login">
       <main className="min-h-screen bg-[#FFFFFF80] flex justify-center items-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="flex flex-1 items-center justify-center mt-12 ">
           <div
@@ -214,8 +221,8 @@ export default function TransactionForm() {
                         currentStep === step.number
                           ? "bg-primary text-white"
                           : currentStep > step.number
-                            ? "bg-green-500 text-white"
-                            : "bg-gray-200 text-gray-500"
+                          ? "bg-green-500 text-white"
+                          : "bg-gray-200 text-gray-500"
                       }`}
                     >
                       {step.number}
@@ -288,8 +295,8 @@ export default function TransactionForm() {
                   loading
                     ? "Submitting..."
                     : currentStep === 4
-                      ? "Submit"
-                      : "Next "
+                    ? "Submit"
+                    : "Next "
                 }
                 icon={<ChevronRight className="h-5 w-5 md:mr-2" />}
                 variant="primary"
@@ -346,6 +353,6 @@ export default function TransactionForm() {
         isVisible={toast.isVisible}
         onClose={() => setToast((prev) => ({ ...prev, isVisible: false }))}
       />
-    </>
+    </AuthWrapper>
   );
 }
