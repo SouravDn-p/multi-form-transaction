@@ -10,8 +10,10 @@ import { RootState } from "../store/store";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+  credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
+
     headers.set("ngrok-skip-browser-warning", "true");
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
