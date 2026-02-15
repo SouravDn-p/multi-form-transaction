@@ -14,9 +14,10 @@ const Navbar = () => {
     try {
       await logout().unwrap();
       router.push("/login");
-      router.refresh();
+      // router.refresh();
     } catch (err) {
       console.error("Logout failed:", err);
+      router.push("/login");
     }
   };
 
