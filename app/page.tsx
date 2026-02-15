@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import Step1 from "@/components/steps/Step1";
@@ -22,8 +24,15 @@ import {
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import AuthWrapper from "@/components/AuthWrapper";
+import { useAppSelector } from "@/redux/hooks";
+import {
+  usePaymentIntendMutation,
+  usePaymentSubmitMutation,
+} from "@/redux/features/api/transactionApi";
+import { PaymentInstancePayload } from "@/types/transactionType";
 
 export default function TransactionForm() {
+  const user = useAppSelector((state) => state.auth.user);
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<TransactionFormData>({});
@@ -36,6 +45,9 @@ export default function TransactionForm() {
     message: "",
     type: "success" as "success" | "error",
   });
+  const [paymentIntend, { isLoading }] = usePaymentIntendMutation();
+  const [paymentSubmit, { isLoading: isSubmitLoading }] =
+    usePaymentSubmitMutation();
 
   // Effect to validate current step when formData changes
   useEffect(() => {
@@ -53,7 +65,7 @@ export default function TransactionForm() {
         }
         break;
       case 2:
-        if (!formData.beneficiary?.id || !formData.beneficiary?.name) {
+        if (!formData.beneficiary?.userID || !formData.beneficiary?.nprenom) {
           newErrors.beneficiary = "Please select a beneficiary";
         }
         break;
@@ -83,6 +95,13 @@ export default function TransactionForm() {
     // Validate current step before proceeding
     const isValid = validateCurrentStep();
 
+    const paymentBody: PaymentInstancePayload = {
+      userID: user?.userID,
+      benId: formData.beneficiary?.userID,
+      amount: formData.amount,
+      coupon: formData.couponCode,
+    };
+
     if (!isValid) {
       return;
     }
@@ -91,8 +110,15 @@ export default function TransactionForm() {
       setLoading(true);
 
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const result = await paymentIntend(paymentBody).unwrap();
 
+        if (result.payment_intent_id) {
+          const paymentSubmitBody = {
+            payment_intent_id: result.payment_intent_id,
+          };
+
+          await paymentSubmit(paymentSubmitBody).unwrap();
+        }
         setError("");
         setErrors([]);
         setFieldErrors({});
@@ -106,10 +132,20 @@ export default function TransactionForm() {
         setTimeout(() => {
           router.push("/success");
         }, 2000);
-      } catch (err) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        console.log(err?.data?.error);
+        let mes = "Error submitting form. Please try again.";
+        if (err?.data?.error === "Insufficient balance!") {
+          mes = "Insufficient balance!";
+        }
+        if (err?.data?.message === "The amount field must be at least 1.") {
+          mes = "The amount field must be at least 1.";
+        }
+
         setToast({
           isVisible: true,
-          message: "Error submitting form. Please try again.",
+          message: mes,
           type: "error",
         });
       } finally {
@@ -156,6 +192,7 @@ export default function TransactionForm() {
       case 1:
         return (
           <Step1
+            user={user ? user : null}
             formData={formData}
             updateFormData={setFormData}
             fieldErrors={fieldErrors}
@@ -164,6 +201,7 @@ export default function TransactionForm() {
       case 2:
         return (
           <Step2
+            user={user ? user : null}
             formData={formData}
             updateFormData={setFormData}
             fieldErrors={fieldErrors}
@@ -172,6 +210,7 @@ export default function TransactionForm() {
       case 3:
         return (
           <Step3
+            user={user ? user : null}
             formData={formData}
             updateFormData={setFormData}
             fieldErrors={fieldErrors}
@@ -180,6 +219,7 @@ export default function TransactionForm() {
       case 4:
         return (
           <Step4
+            user={user ? user : null}
             formData={formData}
             updateFormData={setFormData}
             fieldErrors={fieldErrors}
@@ -221,8 +261,8 @@ export default function TransactionForm() {
                         currentStep === step.number
                           ? "bg-primary text-white"
                           : currentStep > step.number
-                          ? "bg-green-500 text-white"
-                          : "bg-gray-200 text-gray-500"
+                            ? "bg-green-500 text-white"
+                            : "bg-gray-200 text-gray-500"
                       }`}
                     >
                       {step.number}
@@ -295,8 +335,8 @@ export default function TransactionForm() {
                   loading
                     ? "Submitting..."
                     : currentStep === 4
-                    ? "Submit"
-                    : "Next "
+                      ? "Submit"
+                      : "Next "
                 }
                 icon={<ChevronRight className="h-5 w-5 md:mr-2" />}
                 variant="primary"

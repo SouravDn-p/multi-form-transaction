@@ -4,32 +4,36 @@
 import { useState, useMemo } from "react";
 import { StepProps } from "@/types/stepType";
 import { Users, Search } from "lucide-react";
-import { BENEFICIARIES } from "@/constants/constant";
+import { useGetAllBeneficiariesQuery } from "@/redux/features/api/transactionApi";
+import { Beneficiary } from "@/types/types";
 
 export default function Step2({
+  user,
   formData,
   updateFormData,
   fieldErrors,
 }: StepProps) {
   const [search, setSearch] = useState("");
+  const { data: beneficiariesResponse, isLoading } =
+    useGetAllBeneficiariesQuery(user?.userID);
 
   const filteredBeneficiaries = useMemo(() => {
-    if (!search.trim()) return BENEFICIARIES;
+    if (!search.trim()) return beneficiariesResponse?.data;
 
     const q = search.toLowerCase();
-    return BENEFICIARIES.filter(
-      (b) =>
-        b.name.toLowerCase().includes(q) ||
-        String(b.id).toLowerCase().includes(q),
+    return beneficiariesResponse?.data.filter(
+      (b: Beneficiary) =>
+        b.nprenom.toLowerCase().includes(q) ||
+        String(b.userID).toLowerCase().includes(q),
     );
-  }, [search]);
+  }, [search, beneficiariesResponse?.data]);
 
   return (
     <div className="space-y-6">
       <div className="bg-white py-6 px-6 rounded-xl border border-gray-200 shadow-sm">
         {/* Header */}
         <div className="md:flex items-start space-x-4 space-y-4">
-          <div className="flex-shrink-0 flex gap-4 justify-center items-center">
+          <div className="shrink-0 flex gap-4 justify-center items-center">
             <div className="w-12 h-12 rounded-xl bg-linear-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-md">
               <Users className="h-6 w-6 text-white" />
             </div>
@@ -65,16 +69,17 @@ export default function Step2({
 
         {/* Beneficiary List */}
         <div className="mt-6 space-y-3">
-          {filteredBeneficiaries.length === 0 && (
+          {isLoading && <p className="text-sm text-gray-500">Loading...</p>}
+          {filteredBeneficiaries?.length === 0 && (
             <p className="text-sm text-gray-500">No beneficiaries found.</p>
           )}
 
-          {filteredBeneficiaries.map((beneficiary) => (
+          {filteredBeneficiaries?.map((beneficiary: Beneficiary) => (
             <button
-              key={beneficiary.id}
+              key={beneficiary.userID}
               type="button"
               className={`p-4 rounded-lg border text-left transition-all duration-200 w-full ${
-                formData.beneficiary?.id === beneficiary.id
+                formData.beneficiary?.userID === beneficiary.userID
                   ? "border-blue-500 bg-blue-50 text-blue-700 hover:cursor-pointer"
                   : "border-gray-200 hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer"
               }`}
@@ -85,9 +90,9 @@ export default function Step2({
                 })
               }
             >
-              <div className="font-medium">{beneficiary.name}</div>
+              <div className="font-medium">{beneficiary.nprenom}</div>
               <div className="text-sm text-gray-600 mt-1">
-                ID: {beneficiary.id}
+                ID: {beneficiary.userID}
               </div>
             </button>
           ))}

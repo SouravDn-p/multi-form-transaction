@@ -13,7 +13,6 @@ export interface RegisterResponse {
   token_type: "Bearer";
 }
 
-
 export interface LoginRequest {
   email: string;
   mdp: string;

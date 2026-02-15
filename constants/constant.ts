@@ -34,8 +34,8 @@ export const PAYMENT_ICON_MAP: Record<string, React.ElementType> = {
 };
 
 export const BENEFICIARIES = [
-  { id: "4385304098", name: "Chris Cherubin" },
-  { id: "92314525606", name: "Haris Sultan" },
+  { userID: "4385304098", nprenom: "Chris Cherubin", phone: "2345", cpt: 1212 },
+  { userID: "92314525606", nprenom: "Haris Sultan", phone: "2345", cpt: 1214 },
 ] as const;
 
 export type Coupon = {

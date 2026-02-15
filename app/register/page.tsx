@@ -49,6 +49,7 @@ const RegisterPage = () => {
       setTimeout(() => {
         router.push("/login");
       }, 2000);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error("Registration failed:", err);
       setError(err.data?.message || "Registration failed. Please try again.");

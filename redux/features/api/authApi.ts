@@ -42,7 +42,7 @@ export const authApi = baseApi.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(
-            setCredentials({ token: data.access_token, user: data.user })
+            setCredentials({ token: data.access_token, user: data.user }),
           );
         } catch (error) {
           // Handle error if needed

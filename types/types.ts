@@ -10,8 +10,10 @@ export type TransactionType = (typeof TRANSACTION_TYPES)[number];
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 
 export type Beneficiary = {
-  id: string;
-  name: string;
+  userID: string;
+  nprenom: string;
+  phone: string;
+  cpt: number;
 };
 
 export type TransactionFormData = {

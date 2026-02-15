@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState } from "react";
@@ -41,14 +42,14 @@ const LoginPage = () => {
         setCredentials({
           token: result.access_token,
           user: result.user,
-        })
+        }),
       );
 
       // Redirect to home or dashboard
       router.push("/");
       router.refresh(); // Refresh to update UI based on auth state
     } catch (err: any) {
-      console.error("Login failed:", err);
+     
       setError(err.data?.message || "Login failed. Please try again.");
     }
   };
@@ -73,7 +74,7 @@ const LoginPage = () => {
         )}
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="rounded-md shadow-sm space-y-1">
             <div>
               <Input
                 id="email"
@@ -115,7 +116,7 @@ const LoginPage = () => {
 
         <div className="text-center mt-4">
           <p className="text-sm text-gray-600">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               href="/register"
               className="font-medium text-indigo-600 hover:text-indigo-500"

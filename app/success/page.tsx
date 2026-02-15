@@ -1,16 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { CheckCircle } from "lucide-react";
 import AuthWrapper from "@/components/AuthWrapper";
 
 export default function SuccessPage() {
-  useEffect(() => {
-    console.log("Success page loaded");
-  }, []);
-
   return (
     <AuthWrapper requireAuth={true} redirectTo="/login">
       <div className="min-h-screen bg-[#FFFFFF80] flex justify-center items-center py-12 px-4 sm:px-6 lg:px-8">
