@@ -94,7 +94,9 @@ export default function Step4({
               placeholder="Enter amount"
               value={formData.amount || ""}
               onChange={handleAmountChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-colors"
+              className="w-full px-4 py-3 border border-gray-300! rounded-lg transition-colors focus:outline-none focus:ring 
+    focus:ring-pink-500 
+    focus:border-pink-500"
             />
             {fieldErrors?.amount && (
               <p className="mt-2 text-sm text-red-600">{fieldErrors.amount}</p>
@@ -124,7 +126,7 @@ export default function Step4({
                     ),
                   })
                 }
-                className="w-full md:flex-1 px-6 py-3 border border-gray-300 rounded-lg transition-colors"
+                className="w-full md:flex-1 px-6 py-3 border border-gray-300 rounded-lg transition-colors focus:outline-none focus:ring focus:ring-pink-500"
               />
               <Button
                 text="Apply"
@@ -242,7 +244,7 @@ export default function Step4({
                   <div className="md:flex justify-between py-2 border-b border-gray-100">
                     <span className="text-gray-600">Beneficiary:</span>
                     <div className="font-medium text-gray-900">
-                      {formData.beneficiary?.name || "Not specified"}
+                      {formData.beneficiary?.nprenom || "Not specified"}
                     </div>
                   </div>
                   <div className="md:flex justify-between py-2">

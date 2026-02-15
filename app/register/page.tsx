@@ -11,7 +11,6 @@ import Input from "@/components/ui/Input";
 
 const RegisterPage = () => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const [register, { isLoading }] = useRegisterMutation();
 
   const [formData, setFormData] = useState({
@@ -49,7 +48,7 @@ const RegisterPage = () => {
       setTimeout(() => {
         router.push("/login");
       }, 2000);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error("Registration failed:", err);
       setError(err.data?.message || "Registration failed. Please try again.");
@@ -109,7 +108,7 @@ const RegisterPage = () => {
         )}
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px grid grid-cols-1 gap-4">
+          <div className="rounded-md -space-y-px grid grid-cols-1 gap-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Input

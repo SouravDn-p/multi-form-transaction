@@ -22,7 +22,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white shadow-md py-4 px-6 flex justify-between items-center">
-      <div className="text-xl font-bold text-primary">
+      <div className="text-xl font-bold text-primary cursor-pointer">
         <Link href="/">Multi-Form Transaction</Link>
       </div>
 
@@ -35,7 +35,7 @@ const Navbar = () => {
             <button
               onClick={handleLogout}
               disabled={isLoading}
-              className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition-colors"
+              className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition-colors cursor-pointer"
             >
               {isLoading ? "Logging out..." : "Logout"}
             </button>
@@ -44,13 +44,13 @@ const Navbar = () => {
           <>
             <Link
               href="/login"
-              className="text-gray-700 hover:text-primary transition-colors"
+              className="text-gray-700 hover:text-primary transition-colors cursor-pointer"
             >
               Login
             </Link>
             <Link
               href="/register"
-              className="bg-primary hover:bg-primary/90 text-white py-2 px-4 rounded-md transition-colors"
+              className="bg-primary hover:bg-primary/90 text-white py-2 px-4 rounded-md transition-colors cursor-pointer"
             >
               Register
             </Link>

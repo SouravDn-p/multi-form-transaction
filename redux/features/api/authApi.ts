@@ -34,7 +34,8 @@ export const authApi = baseApi.injectEndpoints({
       transformResponse: (response: LoginResponse) => {
         // Store token in localStorage for immediate availability
         if (response.access_token) {
-          localStorage.setItem("token", response.access_token);
+          localStorage.setItem("chris-token", response.access_token);
+          localStorage.setItem("chris-user", JSON.stringify(response.user));
         }
         return response;
       },
@@ -59,12 +60,13 @@ export const authApi = baseApi.injectEndpoints({
         try {
           await queryFulfilled;
           // Clear token from localStorage
-          localStorage.removeItem("token");
+          localStorage.removeItem("chris-token");
+          localStorage.removeItem("chris-user");
           // Dispatch logout action to clear Redux state
           dispatch(logoutAction());
         } catch (error) {
           // Even if API call fails, clear local state
-          localStorage.removeItem("token");
+          localStorage.removeItem("chris-token");
           dispatch(logoutAction());
         }
       },
